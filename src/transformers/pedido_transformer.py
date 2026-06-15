@@ -14,7 +14,7 @@ def transformar_dados(nome):
         relatorio['valor']
         .fillna('0')
         .str.replace('.', '', regex=False)
-        .str.replace(',', '.', regex=False)
+        .str.replace(',', '.', regex=False) # regex ident. alguns caract como comandos, por isso desativamos
         .astype(float)
     ) # converte numero string 1.000,00 para float 1000.00
 
@@ -25,6 +25,5 @@ def transformar_dados(nome):
         .str.lower()
         .str.title()
     ) # formatação dos nomes
-
 
     return relatorio

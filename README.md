@@ -1,8 +1,8 @@
-# Tekar PDF Intelligence
+# PDF Intelligence
 
 ## Sobre o Projeto
 
-O **Tekar PDF Intelligence** é uma ferramenta desenvolvida para automatizar a extração de dados de recibos em PDF utilizados na operação de um Auto Center.
+O **PDF Intelligence** é uma ferramenta desenvolvida para automatizar a extração de dados de recibos em PDF utilizados na operação de um Auto Center.
 
 Atualmente, os pedidos são registrados em um aplicativo externo que gera um PDF para cada atendimento realizado. O objetivo deste projeto é transformar esses documentos em dados estruturados, permitindo análises, geração de relatórios e futuras integrações com bancos de dados e automações.
 
