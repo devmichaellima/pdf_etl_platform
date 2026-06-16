@@ -8,6 +8,7 @@ from dateparser import parse
 
 from src.extractors.pdf_extractor import extract_text_from_pdf, extrair_dados_recibo
 from src.transformers.pedido_transformer import transformar_dados
+from src.database.connection import salvar_recibos_postgres
 
 # =======================================================================
 # Configurações da página
@@ -277,7 +278,8 @@ def render_metric_card(title, value, subtitle=""):
 
 def show_kpis(df, total_files):
     pdf_count = total_files
-    records_count = len(df) if df is not None else 0
+    # records_count = len(df) if df is not None else 0
+    ticket_medio = df['valor'].mean().round(2)
     
     # Validações antes de calcular
     if df is not None and not df.empty and 'valor' in df.columns:
@@ -286,10 +288,11 @@ def show_kpis(df, total_files):
     else:
         total_val_str = "R$ 0,00"
         
-    if df is not None and not df.empty and 'cliente' in df.columns:
-        unique_clients = df['cliente'].nunique()
-    else:
-        unique_clients = 0
+    # if df is not None and not df.empty and 'cliente' in df.columns:
+    #     unique_clients = df['cliente'].nunique()
+    # else:
+    #     unique_clients = 0
+    melhor_cliente = df.groupby('cliente')['valor'].sum().idxmax()
 
     col1, col2, col3, col4 = st.columns(4)
     with col1:
@@ -297,9 +300,9 @@ def show_kpis(df, total_files):
     with col2:
         st.markdown(render_metric_card("Valor Total", total_val_str, "Soma consolidada dos valores"), unsafe_allow_html=True)
     with col3:
-        st.markdown(render_metric_card("Registros Extraídos", f"{records_count}", "Total de linhas na base"), unsafe_allow_html=True)
+        st.markdown(render_metric_card("Ticket Médio", f"R$ {ticket_medio}".replace(".", ","), "Média dos valores registrados"), unsafe_allow_html=True)
     with col4:
-        st.markdown(render_metric_card("Clientes Únicos", f"{unique_clients}", "Clientes distintos identificados"), unsafe_allow_html=True)
+        st.markdown(render_metric_card("Melhor Cliente", f"{melhor_cliente}", "Cliente com maior faturamento"), unsafe_allow_html=True)
 
 # =======================================================================
 # Abas / Telas da aplicação
@@ -450,12 +453,12 @@ elif "Extrair PDF" in opcao_menu:
     
     st.markdown("<br>", unsafe_allow_html=True)
     
-    col_btn1, col_btn2 = st.columns([1, 1])
+    col_spaced, col_btn1, col_btn2 = st.columns([2, 1, 1])
     
     with col_btn1:
-        btn_processar = st.button("Processar Arquivos")
+        btn_processar = st.button("Processar Arquivos", use_container_width=True)
     with col_btn2:
-        btn_limpar = st.button("Limpar lista de upload")
+        btn_limpar = st.button("Limpar lista de upload", use_container_width=True)
         
     if btn_limpar:
         st.session_state["uploader_key"] += 1
@@ -537,18 +540,39 @@ elif "Dados Extraídos" in opcao_menu:
             
         csv_data = df_export.to_csv(index=False, sep=";", encoding="utf-8-sig")
         
-        col_spaced, col_btn_download = st.columns([3, 1])
-        with col_btn_download:
-            st.download_button(
-                label="Baixar CSV (Sep:';')",
-                data=csv_data,
-                file_name="dados_extraidos.csv",
-                mime="text/csv"
-            )
-            
         st.markdown("<br>", unsafe_allow_html=True)
         st.dataframe(df, use_container_width=True)
+
+        col_spaced, col_btn_download, col_btn_db = st.columns([2, 1, 1])
         
+        
+
+        with col_btn_download:
+            st.download_button(
+                label="Baixar para Excel",
+                data=csv_data,
+                file_name="dados_extraidos.csv",
+                mime="text/csv",
+                use_container_width=True
+            )
+            
+        with col_btn_db:
+            if st.button(
+                "Salvar no Banco",
+                use_container_width=True
+            ):
+                qtd = salvar_recibos_postgres(df_export)
+
+                if qtd > 0:
+                    st.success(f"{qtd} recibos inseridos.")
+                    st.session_state["df_dados"] = None
+                else:
+                    st.warning("Nenhum recibo novo encontrado.")
+        
+
+        
+        
+
     else:
         st.markdown("""
         <div class="info-card" style="text-align: center; padding: 40px 20px;">
