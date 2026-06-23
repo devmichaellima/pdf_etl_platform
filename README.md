@@ -109,11 +109,9 @@ data_processamento
 
 ## Estrutura do Projeto
 
-```text
-## Estrutura do Projeto
 
 ```text
-tekar_pdf_intelligence/
+pdf_etl_platform/
 │
 ├── app.py
 ├── executar.bat
@@ -127,6 +125,11 @@ tekar_pdf_intelligence/
 │
 ├── data/
 │   └── relatorio.csv
+│
+├── docs/
+│   ├── dashboard_streamlit.png
+│   ├── exportar_dados.png
+│   └── extracao_dados.png
 │
 ├── recibos_mock/
 │   └── arquivos PDF para teste
@@ -146,11 +149,11 @@ tekar_pdf_intelligence/
 │   │   └── medidas DAX documentadas
 │   │
 │   └── screenshots/
-│       └── prints do dashboard
+│       ├── DashBoard.png
+│       ├── Excalidraw.png
+│       └── Figma.png
 │
 └── src/
-    ├── __init__.py
-    │
     ├── database/
     │   ├── __init__.py
     │   └── connection.py
@@ -163,9 +166,6 @@ tekar_pdf_intelligence/
         ├── __init__.py
         └── pedido_transformer.py
 ```
-
-```
-
 ---
 
 ## Screenshots
