@@ -330,7 +330,7 @@ if "Dashboard" in opcao_menu:
                 df_clean_data = df.dropna(subset=['data', 'valor'])
                 df_data = df_clean_data.groupby('data')['valor'].sum().reset_index()
                 df_data = df_data.sort_values('data')
-                
+            
                 fig_line = px.line(
                     df_data,
                     x='data',

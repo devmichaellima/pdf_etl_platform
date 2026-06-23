@@ -1,0 +1,21 @@
+---------------------------------------------------------------------------------------------------------------
+criação da Tabela Calendario
+---------------------------------------------------------------------------------------------------------------
+
+let
+    DataMin = List.Min(#"public recibos"[data]),
+    DataMax = List.Max(#"public recibos"[data]),
+    QtdDias = Duration.Days(DataMax-DataMin)+1,
+    ListaDatas = List.Dates(DataMin, QtdDias, #duration(1, 0, 0, 0)),
+    #"Convertido para Tabela" = Table.FromList(ListaDatas, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #"Colunas Renomeadas" = Table.RenameColumns(#"Convertido para Tabela",{{"Column1", "data"}}),
+    #"Tipo Alterado" = Table.TransformColumnTypes(#"Colunas Renomeadas",{{"data", type date}}),
+    #"Nome do Mês Inserido" = Table.AddColumn(#"Tipo Alterado", "Nome do Mês", each Date.MonthName([data]), type text),
+    #"Nome do Dia Inserido" = Table.AddColumn(#"Nome do Mês Inserido", "Nome do Dia", each Date.DayOfWeekName([data]), type text),
+    #"Mês Inserido" = Table.AddColumn(#"Nome do Dia Inserido", "Mês", each Date.Month([data]), Int64.Type),
+    #"Dia Inserido" = Table.AddColumn(#"Mês Inserido", "Dia", each Date.Day([data]), Int64.Type),
+    #"Dia da Semana Inserido" = Table.AddColumn(#"Dia Inserido", "Dia da Semana", each Date.DayOfWeek([data]), Int64.Type),
+    #"Colunas Removidas" = Table.RemoveColumns(#"Dia da Semana Inserido",{"Dia"})
+in
+    #"Colunas Removidas"
+

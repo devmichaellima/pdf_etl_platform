@@ -20,36 +20,6 @@ def get_engine():
     return create_engine(connection_string)
 
 
-
-# def salvar_recibos_postgres(df):
-#     engine = get_engine()
-
-#     recibos_existentes = pd.read_sql(
-#         "SELECT numero_recibo FROM recibos",
-#         con=engine
-#     )
-
-#     df_novos = df[
-#         ~df["numero_recibo"].isin(recibos_existentes["numero_recibo"])
-#     ]
-
-#     if df_novos.empty:
-#         return 0
-
-#     df_novos.to_sql(
-#         name="recibos",
-#         con=engine,
-#         if_exists="append",
-#         index=False
-#     )
-
-#     return len(df_novos)
-
- 
-
-# from sqlalchemy import text
-
-
 def salvar_recibos_postgres(df):
     engine = get_engine()
 
@@ -85,3 +55,34 @@ def salvar_recibos_postgres(df):
         result = conn.execute(query, dados)
 
     return result.rowcount
+
+
+# def salvar_recibos_postgres(df):
+#     engine = get_engine()
+
+#     recibos_existentes = pd.read_sql(
+#         "SELECT numero_recibo FROM recibos",
+#         con=engine
+#     )
+
+#     df_novos = df[
+#         ~df["numero_recibo"].isin(recibos_existentes["numero_recibo"])
+#     ]
+
+#     if df_novos.empty:
+#         return 0
+
+#     df_novos.to_sql(
+#         name="recibos",
+#         con=engine,
+#         if_exists="append",
+#         index=False
+#     )
+
+#     return len(df_novos)
+
+ 
+
+# from sqlalchemy import text
+
+

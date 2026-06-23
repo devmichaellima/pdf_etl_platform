@@ -1,255 +1,279 @@
 # PDF Intelligence
 
-## Sobre o Projeto
+Automação profissional para extrair dados de recibos em PDF, tratar as informações, armazenar em PostgreSQL e alimentar um dashboard analítico no Power BI.
 
-O **PDF Intelligence** é uma ferramenta desenvolvida para automatizar a extração de dados de recibos em PDF utilizados na operação de um Auto Center.
-
-Atualmente, os pedidos são registrados em um aplicativo externo que gera um PDF para cada atendimento realizado. O objetivo deste projeto é transformar esses documentos em dados estruturados, permitindo análises, geração de relatórios e futuras integrações com bancos de dados e automações.
-
-A solução foi construída utilizando Python e Streamlit, permitindo que usuários façam upload de múltiplos PDFs, extraiam informações automaticamente e gerem arquivos CSV prontos para análise.
+O projeto atendeu uma demanda real de negócio e reduziu praticamente a zero o tempo manual necessário para consolidar, organizar e analisar recibos.
 
 ---
 
-## Problema de Negócio
+## Objetivo
 
-O processo manual de consultar recibos individualmente apresenta limitações para:
-
-* Consolidar informações de vendas;
-* Acompanhar faturamento;
-* Identificar clientes recorrentes;
-* Gerar indicadores operacionais;
-* Alimentar sistemas de Business Intelligence;
-* Automatizar processos futuros.
-
-Este projeto resolve esse problema transformando documentos PDF em dados estruturados e utilizáveis.
-
----
-
-## Objetivos do Projeto
-
-* Automatizar a leitura de recibos em PDF;
-* Extrair informações relevantes dos documentos;
-* Padronizar e tratar os dados coletados;
-* Gerar arquivos CSV para análise;
-* Disponibilizar indicadores em dashboard interativo;
-* Criar uma base preparada para futuras integrações com banco de dados e automações.
-
----
-
-## Tecnologias Utilizadas
-
-### Python
-
-Linguagem principal utilizada para todo o processamento da aplicação.
-
-### Streamlit
-
-Responsável pela interface web da aplicação.
-
-Utilizado para:
-
-* Upload de arquivos;
-* Exibição de tabelas;
-* Indicadores;
-* Dashboard;
-* Download de relatórios.
-
-### PDFPlumber
-
-Biblioteca utilizada para leitura e extração de texto dos arquivos PDF.
-
-### Pandas
-
-Biblioteca utilizada para:
-
-* Criação de DataFrames;
-* Limpeza de dados;
-* Padronização de informações;
-* Geração de arquivos CSV;
-* Cálculo de indicadores.
-
-### DateParser
-
-Utilizado para conversão automática de datas em português para objetos datetime.
-
-### Regex (re)
-
-Utilizado para identificar padrões dentro dos documentos PDF e extrair informações específicas.
-
-### Plotly
-
-Biblioteca utilizada para construção dos gráficos do dashboard.
-
----
-
-## Fluxo da Aplicação
+Transformar recibos em PDF em dados estruturados, consultáveis e prontos para análise.
 
 ```text
-PDFs
-  ↓
-Upload no Streamlit
-  ↓
-Extração de Texto (PDFPlumber)
-  ↓
-Extração de Campos (Regex)
-  ↓
-Transformação dos Dados (Pandas)
-  ↓
-DataFrame
-  ↓
-Geração de CSV
-  ↓
-Dashboard e Indicadores
+PDF → Extração → Tratamento → Banco de Dados → Power BI
 ```
+
+---
+
+## Arquitetura
+
+```text
+Usuário
+  ↓
+Streamlit
+  ↓
+Upload dos PDFs
+  ↓
+pdfplumber
+  ↓
+Regex
+  ↓
+DataFrame Pandas
+  ↓
+Tratamento e padronização dos dados
+  ↓
+Exportação CSV / Excel
+  ↓
+PostgreSQL
+  ↓
+Power BI
+  ↓
+Dashboard Web
+```
+
+---
+
+## Tecnologias
+
+* Python
+* Streamlit
+* pdfplumber
+* Regex
+* Pandas
+* SQLAlchemy
+* PostgreSQL
+* SQL
+* Power BI
+* DAX
+* Figma
+* Excalidraw
+* Git/GitHub
+
+---
+
+## Funcionalidades
+
+* Upload múltiplo de PDFs.
+* Extração automática de dados dos recibos.
+* Tratamento dos dados com Pandas.
+* Geração de DataFrame estruturado.
+* Exportação para CSV/Excel.
+* Envio direto dos dados para PostgreSQL.
+* Controle de duplicidade.
+* Tratamento de erros.
+* Integração com Power BI.
+* Dashboard conectado ao banco de dados.
+* Base mockada com 25 PDFs para teste.
+
+---
+
+## Dados Extraídos
+
+Principais campos extraídos dos recibos:
+
+```text
+numero_recibo
+data
+cliente
+valor
+arquivo_origem
+data_processamento
+```
+
+---
+
+## Indicadores do Dashboard
+
+* Número de pedidos
+* Faturamento total
+* Ticket médio
+* Quantidade de clientes
+* Faturamento por mês
+* Top clientes
+* Análise por faixa de preço
+* Participação por faixa de valor
+* Evolução temporal do faturamento
 
 ---
 
 ## Estrutura do Projeto
 
 ```text
-autocenter-pdf-intelligence/
+## Estrutura do Projeto
+
+```text
+tekar_pdf_intelligence/
 │
 ├── app.py
-│
-├── data/
-│   ├── raw/
-│   ├── processed/
-│   └── exports/
-│
-├── src/
-│   ├── extractors/
-│   │   └── pdf_extractor.py
-│   │
-│   ├── transformers/
-│   │   └── pedido_transformer.py
-│   │
-│   ├── dashboards/
-│   │   └── pedido_dashboard.py
-│   │
-│   └── utils/
-│
+├── executar.bat
 ├── requirements.txt
 ├── README.md
-└── .gitignore
+├── .env
+├── .gitignore
+│
+├── .streamlit/
+│   └── config.toml
+│
+├── data/
+│   └── relatorio.csv
+│
+├── recibos_mock/
+│   └── arquivos PDF para teste
+│
+├── prompts/
+│   └── streamlit.md
+│
+├── sql/
+│   ├── table.sql
+│   └── view.sql
+│
+├── powerbi/
+│   ├── dashboard.pbix
+│   ├── Tema.json
+│   │
+│   ├── dax/
+│   │   └── medidas DAX documentadas
+│   │
+│   └── screenshots/
+│       └── prints do dashboard
+│
+└── src/
+    ├── __init__.py
+    │
+    ├── database/
+    │   ├── __init__.py
+    │   └── connection.py
+    │
+    ├── extractors/
+    │   ├── __init__.py
+    │   └── pdf_extractor.py
+    │
+    └── transformers/
+        ├── __init__.py
+        └── pedido_transformer.py
+```
+
 ```
 
 ---
 
-## Funcionalidades Implementadas
+## Screenshots
 
-### Extração de PDFs
+### 1. Dashboard Streamlit
 
-* Upload múltiplo de arquivos PDF;
-* Leitura automática dos documentos;
-* Extração do texto bruto.
+> Área principal da plataforma Streamlit com visão geral do processamento.
 
-### Processamento de Dados
-
-Extração das informações:
-
-* Número do recibo;
-* Data;
-* Cliente;
-* Valor da venda.
-
-### Transformação dos Dados
-
-* Conversão de datas;
-* Conversão de valores monetários;
-* Padronização de nomes;
-* Criação de DataFrame para análise.
-
-### Exportação
-
-* Geração automática de CSV;
-* Download do relatório pela interface.
-
-### Dashboard
-
-Indicadores principais:
-
-* Total de recibos processados;
-* Faturamento total;
-* Ticket médio;
-* Maior venda;
-* Menor venda.
+![Dashboard Streamlit](docs/dashboard_streamlit.png)
 
 ---
 
-## Aprendizados Aplicados
+### 2. Área de Extração de Dados
 
-Este projeto foi desenvolvido com foco em consolidar conhecimentos de:
+> Upload dos PDFs e processamento automático dos recibos.
 
-* Python;
-* Manipulação de arquivos;
-* Expressões regulares;
-* Pandas;
-* Tratamento de dados;
-* Construção de pipelines simples;
-* Streamlit;
-* Visualização de dados;
-* Estruturação de projetos reais.
+![Extração de Dados](docs/extracao_dados.png)
 
-Além da solução prática para o negócio, o projeto também serve como laboratório de estudo para desenvolvimento de competências em:
+---
 
-* Análise de Dados;
-* Engenharia de Dados;
-* Automação de Processos;
-* Desenvolvimento de Aplicações em Python.
+### 3. Área de Exportação de Dados
+
+> Exportação para CSV/Excel e envio direto para PostgreSQL.
+
+![Exportação de Dados](docs/exportar_dados.png)
+
+---
+
+### 4. Template Power BI
+
+> Plano de fundo criado no Figma para construção visual do dashboard.
+
+![Template Power BI](powerbi/screenshots/Figma.png)
+
+---
+
+### 5. Esboço da Arquitetura Visual
+
+> Rascunho do layout e organização dos elementos no Excalidraw.
+
+![Esboço Excalidraw](powerbi/screenshots/Excalidraw.png)
+
+---
+
+### 6. Dashboard Power BI Final
+
+> Dashboard final conectado ao PostgreSQL e publicado para visualização web.
+
+![Dashboard Power BI](powerbi/screenshots/DashBoard.png)
+
+---
+
+## Fluxo de Uso
+
+```text
+1. Usuário envia os PDFs pela interface Streamlit.
+2. A aplicação extrai o texto com pdfplumber.
+3. Regex captura os campos relevantes.
+4. Pandas estrutura e trata os dados.
+5. O usuário pode exportar CSV/Excel.
+6. O usuário pode enviar os dados ao PostgreSQL.
+7. Power BI consome os dados do banco.
+8. Dashboard é atualizado com os indicadores.
+```
+
+---
+
+## Resultado
+
+O processo manual de consolidação de recibos foi substituído por uma esteira automatizada de dados.
+
+```text
+Antes:
+PDFs analisados manualmente
+Planilhas preenchidas manualmente
+Indicadores gerados manualmente
+
+Depois:
+Upload dos PDFs
+Extração automática
+Banco atualizado
+Dashboard pronto para análise
+```
+
+---
+
+## Destaques Técnicos
+
+* Pipeline ETL funcional.
+* Integração entre Python, PostgreSQL e Power BI.
+* Automação de uma demanda real de negócio.
+* Separação clara entre extração, transformação, carga e visualização.
+* Estrutura preparada para expansão com Docker e deploy em nuvem.
 
 ---
 
 ## Próximas Evoluções
 
-* Integração com PostgreSQL;
-* Integração com Supabase;
-* Automações utilizando n8n;
-* Insights automáticos;
-* Dashboard avançado;
-* Upload automatizado de documentos;
-* API para ingestão de dados;
-* Processamento em lote agendado.
-
----
-
-## Como Executar
-
-### Clonar o repositório
-
-```bash
-git clone <url-do-repositorio>
-```
-
-### Criar ambiente virtual
-
-```bash
-python -m venv .venv
-```
-
-### Ativar ambiente virtual
-
-Windows:
-
-```bash
-.venv\Scripts\activate
-```
-
-### Instalar dependências
-
-```bash
-pip install -r requirements.txt
-```
-
-### Executar aplicação
-
-```bash
-streamlit run app.py
-```
+* Dockerização da aplicação.
+* Deploy em nuvem.
+* Logs estruturados.
+* Histórico de processamentos.
+* Interface administrativa.
+* Agendamento automático de cargas.
 
 ---
 
 ## Autor
 
-Michael Lima
-
-Projeto desenvolvido com foco em automação, análise de dados e construção de soluções para problemas reais de negócio utilizando Python.
+**Michael Lima**
+Data Analytics | BI | Python | SQL | Power BI | Automação

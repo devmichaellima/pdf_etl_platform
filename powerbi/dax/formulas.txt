@@ -1,0 +1,38 @@
+---------------------------------------------------------------------------------------------------------------
+DAX
+---------------------------------------------------------------------------------------------------------------
+
+Coluna para analise de Faixa de Preço
+
+Faixa de Preço = SWITCH(TRUE(),
+'public recibos'[valor] <= 500, "Até R$ 500",
+'public recibos'[valor] <= 1000, "R$ 501 - R$ 1.000",
+'public recibos'[valor] <= 3000, "R$ 1.001 - R$ 3.000",
+'public recibos'[valor] > 3000, "Acima de R$ 3.000")
+
+Coluna para Ordenar exibiçao da Faixa de Preço
+
+Ordem Faixa = 
+SWITCH(
+    TRUE(),
+    'public recibos'[valor] <= 500, 1,
+    'public recibos'[valor] <= 1000, 2,
+    'public recibos'[valor] <= 3000, 3,
+    'public recibos'[valor] > 3000, 4
+)
+
+---------------------------------------------------------------------------------------------------------------
+
+Metricas
+
+
+Faturamento Total = sum('public recibos'[valor])
+
+Total Clientes = DISTINCTCOUNT('public recibos'[cliente])
+
+Ticket Médio = AVERAGE('public recibos'[valor])
+
+Número de Pedidos = COUNTROWS('public recibos')
+
+Contagem = COUNT('public recibos'[numero_recibo])
+
