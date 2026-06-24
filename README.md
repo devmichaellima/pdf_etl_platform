@@ -16,6 +16,56 @@ PDF → Extração → Tratamento → Banco de Dados → Power BI
 
 ---
 
+## Screenshots
+
+### 1. Dashboard Streamlit
+
+> Área principal da plataforma Streamlit com visão geral do processamento.
+
+![Dashboard Streamlit](docs/dashboard_streamlit.png)
+
+---
+
+### 2. Área de Extração de Dados
+
+> Upload dos PDFs e processamento automático dos recibos.
+
+![Extração de Dados](docs/extracao_dados.png)
+
+---
+
+### 3. Área de Exportação de Dados
+
+> Exportação para CSV/Excel e envio direto para PostgreSQL.
+
+![Exportação de Dados](docs/exportar_dados.png)
+
+---
+
+### 4. Template Power BI
+
+> Plano de fundo criado no Figma para construção visual do dashboard.
+
+![Template Power BI](powerbi/screenshots/Figma.png)
+
+---
+
+### 5. Esboço da Arquitetura Visual
+
+> Rascunho do layout e organização dos elementos no Excalidraw.
+
+![Esboço Excalidraw](powerbi/screenshots/Excalidraw.png)
+
+---
+
+### 6. Dashboard Power BI Final
+
+> Dashboard final conectado ao PostgreSQL e publicado para visualização web.
+
+![Dashboard Power BI](powerbi/screenshots/DashBoard.png)
+
+---
+
 ## Arquitetura
 
 ```text
@@ -166,55 +216,6 @@ pdf_etl_platform/
         ├── __init__.py
         └── pedido_transformer.py
 ```
----
-
-## Screenshots
-
-### 1. Dashboard Streamlit
-
-> Área principal da plataforma Streamlit com visão geral do processamento.
-
-![Dashboard Streamlit](docs/dashboard_streamlit.png)
-
----
-
-### 2. Área de Extração de Dados
-
-> Upload dos PDFs e processamento automático dos recibos.
-
-![Extração de Dados](docs/extracao_dados.png)
-
----
-
-### 3. Área de Exportação de Dados
-
-> Exportação para CSV/Excel e envio direto para PostgreSQL.
-
-![Exportação de Dados](docs/exportar_dados.png)
-
----
-
-### 4. Template Power BI
-
-> Plano de fundo criado no Figma para construção visual do dashboard.
-
-![Template Power BI](powerbi/screenshots/Figma.png)
-
----
-
-### 5. Esboço da Arquitetura Visual
-
-> Rascunho do layout e organização dos elementos no Excalidraw.
-
-![Esboço Excalidraw](powerbi/screenshots/Excalidraw.png)
-
----
-
-### 6. Dashboard Power BI Final
-
-> Dashboard final conectado ao PostgreSQL e publicado para visualização web.
-
-![Dashboard Power BI](powerbi/screenshots/DashBoard.png)
 
 ---
 
